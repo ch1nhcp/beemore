@@ -1,0 +1,20 @@
+{
+  "name": "beemore",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ch1nhcp/beemore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ch1nhcp/beemore/issues"
+  },
+  "homepage": "https://github.com/ch1nhcp/beemore#readme"
+}

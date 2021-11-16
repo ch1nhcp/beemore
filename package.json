@@ -1,8 +1,16 @@
 {
   "name": "beemore",
   "version": "1.0.0",
-  "description": "",
+  "description": "\"# beemore\" \r # User Story\r ## KHÁCH\r - Là khách, tôi có thể vào trang web và xem các thông tin bài viết\r - Là khách, tôi có thể đăng ký tài khoản và đăng nhập",
   "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.13"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

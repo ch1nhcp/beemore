@@ -1,4 +1,5 @@
 "# beemore" 
+# Website: https://beemore.xyz/
 # User Story
 ## KHÁCH
 - Là khách, tôi có thể vào trang web và xem các thông tin bài viết
@@ -30,10 +31,6 @@
 ```sh
 {
     username: {
-        type: String,
-        require: true
-    },
-    password: {
         type: String,
         require: true
     },
@@ -81,7 +78,8 @@
     categoryId: {
         type:mongoose.Types.ObjectId,
         ref:"Category"
-    }
+    },
+    viewNumber: Number
 },{
     timestamps:true
 }

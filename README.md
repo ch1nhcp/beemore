@@ -1,5 +1,6 @@
 "# beemore" 
 # Website: https://beemore.xyz/
+
 # User Story
 ## KHÁCH
 - Là khách, tôi có thể vào trang web và xem các thông tin bài viết
@@ -19,7 +20,7 @@
 ## ADMIN
 - Là admin, tôi có thể phê duyệt bài viết
 - Là admin, tôi có thể xem các bài viết bị report
-- Là admin, tôi có thể xóa bài viết bất kì
+- Là admin, tôi có thể sửa / xóa bài viết bất kì
 
 # Stack công nghệ
 - ExpressJS để tạo web app
@@ -44,10 +45,12 @@
     }
     follower: {
         type: Array,
+        hide: Boolean,
         require: true
-    }
+    },
     following: {
         type: Array,
+        hide: Boolean,
         require: true
     },
     role: {
@@ -91,7 +94,8 @@
     categoryName:{
         type: String,
         require: true
-    }
+    },
+    description: String
 },{
     timestamps:true
 }
@@ -99,16 +103,18 @@
 ## CommentSchema
 ```sh
 {
-    type: {
-        type: String,
-        enum: ["image","text"]
+    userId: {
+        type: type: mongoose.Types.ObjectId,
+        ref: "User"
+    },
+    postId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Post"
     },
     content: {
         type: String,
         require: true
     },
-    postImg: Array,
-    hashTag: String,
 
 },{
     timestamps:true
@@ -121,13 +127,17 @@
         type: String,
         require: true
     },
-    status: Boolean,
+    status: {
+        type: String,
+        enum: ["Chưa xử lý","Đang xử lý","Đã xử lý"]
+    },
     postId: {
         type: mongoose.Types.ObjectId,
         ref: "Post"
-    }
+    },
     reportBy:{
         type: mongoose.Types.ObjectId,
+        ref:"User"
     }
 
 },{

@@ -9,6 +9,7 @@ app.listen(process.env.PORT, (err)=>{
     console.log(`Server running on port ${process.env.PORT}`);
 });
 
+
 mongoose.connect(process.env.MONGODB_URI,
     {
         useNewUrlParser: true,

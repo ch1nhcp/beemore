@@ -43,16 +43,6 @@
         type: String,
         require: true
     }
-    follower: {
-        type: Array,
-        hide: Boolean,
-        require: true
-    },
-    following: {
-        type: Array,
-        hide: Boolean,
-        require: true
-    },
     role: {
         type: String,
         enum: ["admin","member"]
@@ -82,7 +72,8 @@
         type:mongoose.Types.ObjectId,
         ref:"Category"
     },
-    viewNumber: Number
+    viewNumber: Number,
+    status: Boolean // true = đã duyệt , false = chưa duyệt
 },{
     timestamps:true
 }
@@ -140,6 +131,54 @@
         ref:"User"
     }
 
+},{
+    timestamps:true
+});
+```
+
+## FollowSchema
+```sh
+{
+    owner: {
+        type: mongoose.Types.ObjectId,
+        ref:"User"
+    },
+    followers:Array,
+    following:Array,
+},{
+    timestamps:true
+});
+```
+
+## LikePostSchema
+```sh
+{
+    postId: {
+        type: mongoose.Types.ObjectId,
+        ref:"Post"
+    },
+    userId:{
+        type: mongoose.Types.ObjectId,
+        ref:"User"
+    },
+    status: Boolean
+},{
+    timestamps:true
+});
+```
+
+## LikeCommentSchema
+```sh
+{
+    commentId: {
+        type: mongoose.Types.ObjectId,
+        ref:"Comment"
+    },
+    userId:{
+        type: mongoose.Types.ObjectId,
+        ref:"User"
+    },
+    status: Boolean
 },{
     timestamps:true
 });

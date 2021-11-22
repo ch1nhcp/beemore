@@ -2,17 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({
-    content: {
-        type:String,
-        required: true
-    },
-    createdBy: String,
-    postId : {
+    createBy: {
         type: mongoose.Types.ObjectId,
-        ref: "Post",
-        required: true
+        ref: "User"
+    },
+    postId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Post"
+    },
+    content: {
+        type: String,
+        require: true
     }
-
 },{
     timestamps:true
 })

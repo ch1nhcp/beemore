@@ -95,7 +95,7 @@
 ```sh
 {
     userId: {
-        type: type: mongoose.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: "User"
     },
     postId: {

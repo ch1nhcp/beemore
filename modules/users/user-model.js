@@ -8,10 +8,27 @@ const UserSchema = new Schema({
     password: {
         type: String,
         require: true
+    },
+    email: {
+        type: String,
+        require: true
+    },
+    role: {
+        type: String,
+        enum: ["admin","member"],
+        default:"member"
+    },
+    countVote: {
+        type:String,
+        default:0
+    },
+    avatar: {
+        type: String,
+        default:"defaultAvt.jpg"
     }
 },{
     timestamps:true
-});
+})
 
 const UserModel = mongoose.model('User',UserSchema);
 module.exports = UserModel;

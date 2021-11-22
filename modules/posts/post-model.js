@@ -9,13 +9,20 @@ const PostSchema = new Schema({
         type: String,
         require: true
     },
-    postImg: Array,
+    postImg: String,
     categoryId: {
         type:mongoose.Types.ObjectId,
         ref:"Category"
     },
-    viewNumber: Number,
-    status: Boolean
+    viewNumber: {
+        type:Number,
+        default: 0
+    },
+    status: Boolean,
+    createdBy:{
+        type:mongoose.Types.ObjectId,
+        ref:"User"
+    }
 },{
     timestamps:true
 })

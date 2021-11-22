@@ -1,6 +1,4 @@
-const PostModel = require('./post-models');
-const CommentModel = require('../comment/comment-models');
-const UserModel = require('../auth/auth-model');
+const PostModel = require('./post-model');
 
 const getAllPosts = async (req, res, next) => {
     try{
@@ -31,7 +29,7 @@ const getPostById = async (req, res) => {
 
 const createNewPost = async (req, res) => {
     try {
-        const { user }  = req;
+        const { user } = req;
         console.log('create post', user)
     
         const newPostData = req.body; 

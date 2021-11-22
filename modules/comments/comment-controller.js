@@ -1,6 +1,6 @@
-const CommentModel = require('./comment-models');
+const CommentModel = require('./comment-model');
 
-const getAllComments = async (req, res) => {
+const getAllComments = async (req, res, next) => {
     try{
         const comments = await CommentModel.find();
         res.send({
@@ -9,15 +9,11 @@ const getAllComments = async (req, res) => {
         })
     }
     catch (err) {
-        res.status(400).send({
-            success: 0,
-             data: null,
-              message: err.message || 'Something went wrong'
-            })
+        next(err);
     }
 }
 
-const postComments = async (req, res) => {
+const postComments = async (req, res, next) => {
     try{
         const newCommentData = req.body;
 
@@ -29,15 +25,11 @@ const postComments = async (req, res) => {
         })
     }
     catch (err) {
-        res.status(400).send({
-            success: 0,
-             data: null,
-              message: err.message || 'Something went wrong'
-            })
+        next(err);
     }
 }
 
-const editComment = async (req, res) => {
+const editComment = async (req, res, next) => {
     try{
         const { commentId } = req.params;
         const updateCommentData = req.body;
@@ -50,15 +42,11 @@ const editComment = async (req, res) => {
         })
     }
     catch (err) {
-        res.status(400).send({
-            success: 0,
-             data: null,
-              message: err.message || 'Something went wrong'
-            })
+        next(err);
     }
 }
 
-const deleteComment = async(req, res) => {
+const deleteComment = async(req, res, next) => {
     const {commentId} = req.params;
     try {
         const deletedComment = await CommentModel.findByIdAndDelete(commentId);
@@ -68,11 +56,7 @@ const deleteComment = async(req, res) => {
         })
     }
     catch(err) {
-        res.status(400).send({
-            success: 0,
-            data: null,
-            message: err.message || 'Something went wrong'
-        })
+        next(err);
     }
 }
 

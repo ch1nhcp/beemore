@@ -1,12 +1,12 @@
-const UserModel = require('./auth-model');
+const UserModel = require('./user-model');
 const bcrypt = require('bcrypt');
 const tokenProvider = require('../common/tokenProvider')
 const HttpError = require('../common/middlewares/httpError');
+
 const signUp = async (req, res, next) => {
     try {
-        const {username, password } = req.body;
+        const {username, password, email } = req.body;
         if(!username){
-            console.log(422);
             throw new HttpError('username required',422);
         }
         if(password && password.length <=6){
@@ -22,7 +22,8 @@ const signUp = async (req, res, next) => {
         const hashPassword = await bcrypt.hash(password, SALT)
         const newUser = await UserModel.create({
             "username":username,
-            "password":hashPassword
+            "password":hashPassword,
+            "email":email,
         });
 
         res.send({
@@ -65,7 +66,7 @@ const login = async (req, res) => {
           }}
         );
     } catch (err) {
-    res.status(400).send({ success: 0, data: null, message: err.message || 'Something went wrong'})
+        next(err);
     }
 }
 

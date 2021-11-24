@@ -13,11 +13,15 @@ const postRouter = require('./modules/posts/post-router');
 const commentRouter = require('./modules/comments/comment-router');
 const userRouter = require('./modules/users/user-router');
 const categoryRouter = require('./modules/categorys/category-router');
+const reportRouter = require('./modules/reports/report-router');
+const followRouter = require('./modules/followers/follow-router');
 
 app.use('/api/posts',postRouter);
 app.use('/api/comments',commentRouter);
 app.use('/api/auth',userRouter);
 app.use('/api/category',categoryRouter);
+app.use('/api/report',reportRouter);
+app.use('/api/follow',followRouter);
 
 app.listen(process.env.PORT, (err)=>{
     if(err) throw err;

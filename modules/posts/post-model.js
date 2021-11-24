@@ -22,6 +22,10 @@ const PostSchema = new Schema({
     createdBy:{
         type:mongoose.Types.ObjectId,
         ref:"User"
+    },
+    giftByPoster:{
+        type:mongoose.Types.ObjectId,
+        ref:"User" 
     }
 },{
     timestamps:true

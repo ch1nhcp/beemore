@@ -23,7 +23,7 @@ const uploadRouter = require('./modules/upload/upload-router');
 
 app.use('/api/posts',postRouter);
 app.use('/api/comments',commentRouter);
-app.use('/api/auth',userRouter);
+app.use('/api/user',userRouter);
 app.use('/api/category',categoryRouter);
 app.use('/api/report',reportRouter);
 app.use('/api/follow',followRouter);

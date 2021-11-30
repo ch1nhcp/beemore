@@ -17,15 +17,15 @@ const getFollowerById = async (req, res) => {
 const createNewData = async (req, res) => {
     try {
         const { user } = req;
-        const newUserData = req.body; 
-        const newReport = await FollowModel.create({
-          ...newUserData,
-          createdBy: user._id
+        const newFollowData = req.body; 
+        const newFollow = await FollowModel.create({
+          ...newFollowData,
+          userid: user._id
         });
     
         res.send({
           success: 1,
-          data: newReport,
+          data: newFollow,
         });
       } catch (err) {
         next(err);
@@ -34,7 +34,15 @@ const createNewData = async (req, res) => {
 
 const updateSetFollow = async (req, res) => {
     try{
-        
+        const { UserId } = req.params;
+        const { user } = req;
+
+        const updatedFollow = await FollowModel.updateOne({_userid: UserId},{ $addToSet: { followers: user._id }}, {new: true});
+
+        res.send({
+            success: 1,
+            data: updatedFollow
+        })
     }
     catch (err) {
         next(err);
@@ -43,7 +51,15 @@ const updateSetFollow = async (req, res) => {
 
 const updateUnFollow = async (req, res) => {
     try{
-        
+        const { UserId } = req.params;
+        const { user } = req;
+
+        const updatedFollow = await FollowModel.updateOne({_userid: UserId},{ $pull: { followers: user._id }}, {new: true});
+
+        res.send({
+            success: 1,
+            data: updatedFollow
+        })
     }
     catch (err) {
         next(err);

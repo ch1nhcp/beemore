@@ -4,9 +4,9 @@ const followController = require('./follow-controller');
 const isAuth = require('../common/middlewares/isAuth');
 
 /* /api/posts */
-router.get('/',isAuth, followController.getFollowerById)
+router.get('/:userId',isAuth, followController.getFollowerById)
 router.post('/:userId',isAuth,followController.createNewData)
-router.put('/:userId',isAuth,followController.updateSetFollow)
-router.put('/:userId',isAuth,followController.updateUnFollow)
+router.put('/set/:userId',isAuth,followController.updateSetFollow)
+router.put('/unset/:userId',isAuth,followController.updateUnFollow)
 
 module.exports = router;

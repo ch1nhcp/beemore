@@ -13,7 +13,7 @@ const getAllPosts = async (req, res, next) => {
     }
 }
 
-const getPostById = async (req, res) => {
+const getPostById = async (req, res, next) => {
     try{
         const {postId} = req.params;
         const foundPosts = await PostModel.findById(postId);
@@ -27,20 +27,20 @@ const getPostById = async (req, res) => {
     }
 }
 
-const createNewPost = async (req, res) => {
+const createNewPost = async (req, res, next) => {
     try {
         const { user } = req;
-        console.log('create post', user)
+        console.log(req)
     
-        const newPostData = req.body; 
-        const newPost = await PostModel.create({
-          ...newPostData,
-          createdBy: user._id
-        });
+        // const newPostData = req.body; 
+        // const newPost = await PostModel.create({
+        //   ...newPostData,
+        //   createdBy: user._id
+        // });
     
         res.send({
           success: 1,
-          data: newPost,
+          //data: newPost,
         });
       } catch (err) {
         next(err);

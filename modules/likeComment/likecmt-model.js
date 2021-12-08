@@ -6,10 +6,7 @@ const LikeCommentSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref:"Comment"
     },
-    userId:{
-        type: mongoose.Types.ObjectId,
-        ref:"User"
-    },
+    userId: Array,
     status: Boolean
 },{
     timestamps:true

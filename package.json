@@ -1,7 +1,7 @@
 {
   "name": "beemore",
   "version": "1.0.0",
-  "description": "\"# beemore\" \r # User Story\r ## KHÁCH\r - Là khách, tôi có thể vào trang web và xem các thông tin bài viết\r - Là khách, tôi có thể đăng ký tài khoản và đăng nhập",
+  "description": "Social Learning Environment",
   "main": "index.js",
   "dependencies": {
     "bcrypt": "^5.0.1",

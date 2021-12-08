@@ -1,5 +1,6 @@
 const CommentModel = require('./comment-model');
 
+
 const getAllComments = async (req, res, next) => {
     try{
         const comments = await CommentModel.find();
@@ -15,9 +16,14 @@ const getAllComments = async (req, res, next) => {
 
 const postComments = async (req, res, next) => {
     try{
+        
+        const { user } = req;
+        
         const newCommentData = req.body;
-
-        const newComment = await CommentModel.create(newCommentData);
+        const newComment = await CommentModel.create({
+            ...newCommentData,
+            createdBy: user._id
+        });
 
         res.send({
             success: 1,
@@ -32,10 +38,11 @@ const postComments = async (req, res, next) => {
 const editComment = async (req, res, next) => {
     try{
         const { commentId } = req.params;
+        const { user } = req;
         const updateCommentData = req.body;
-
-        const updatedComment = await CommentModel.findByIdAndUpdate(commentId,updateCommentData, {new: true}); // option new: true để trả về là doc đã đc update
-
+        
+        const updatedComment = await CommentModel.findOneAndUpdate({$and:[{createdBy:user._id},{_id:commentId}]},updateCommentData, {new: true});
+        console.log(updatedComment);
         res.send({
             success: 1,
             data: updatedComment
@@ -48,8 +55,9 @@ const editComment = async (req, res, next) => {
 
 const deleteComment = async(req, res, next) => {
     const {commentId} = req.params;
+    const { user } = req;
     try {
-        const deletedComment = await CommentModel.findByIdAndDelete(commentId);
+        const deletedComment = await CommentModel.findOneAndRemove({createdBy:user._id,_id:commentId});
         res.send({
             success: 1,
             data: deletedComment

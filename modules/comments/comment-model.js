@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({
-    createBy: {
+    createdBy: {
         type: mongoose.Types.ObjectId,
         ref: "User"
     },

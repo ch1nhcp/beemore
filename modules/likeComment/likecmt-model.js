@@ -7,7 +7,6 @@ const LikeCommentSchema = new Schema({
         ref:"Comment"
     },
     userId: Array,
-    status: Boolean
 },{
     timestamps:true
 });

@@ -2,14 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const LikePostSchema = new Schema({
-    commentId: {
+    postId: {
         type: mongoose.Types.ObjectId,
         ref:"Comment"
     },
-    userId:{
-        type: mongoose.Types.ObjectId,
-        ref:"User"
-    },
+    userId: Array,
     status: Boolean
 },{
     timestamps:true

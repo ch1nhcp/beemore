@@ -1,4 +1,5 @@
 const CommentModel = require('./comment-model');
+const likeCmtModel = require('../likeComment/likecmt-model');
 
 
 const getAllComments = async (req, res, next) => {
@@ -24,6 +25,11 @@ const postComments = async (req, res, next) => {
             ...newCommentData,
             createdBy: user._id
         });
+        
+        console.log(newComment);
+        const LikeCommentData = await likeCmtModel.create({
+            commentId: newComment._id
+        })
 
         res.send({
             success: 1,

@@ -1,24 +1,5 @@
 const LikeCmtModel = require('./likecmt-model');
 
-const createNewData = async(req, res, next) => {
-    try{
-        const { user } = req;
-        const newLikeData = req.body; 
-        const newLike = await LikeCmtModel.create({
-          ...newLikeData,
-          userid: user._id
-        });
-    
-        res.send({
-          success: 1,
-          data: newLike,
-        });
-    }
-    catch(err){
-        next(err)
-    }
-}
-
 const isLikeComment = async (req, res, next) => {
     try{
         const { commentId } = req.params;
@@ -55,5 +36,4 @@ const isUnlikeComment = async (req, res, next) => {
 module.exports = {
     isLikeComment,
     isUnlikeComment,
-    createNewData
 }

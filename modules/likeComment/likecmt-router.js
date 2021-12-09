@@ -4,7 +4,7 @@ const likeCmtController = require('./likecmt-controller');
 const isAuth = require('../common/middlewares/isAuth');
 
 /* /api/likecmt */
-router.post('/:commentId',isAuth, likeCmtController.isLikeComment)
-router.put('/:commentId',isAuth,likeCmtController.isUnlikeComment)
+router.put('/:commentId',isAuth, likeCmtController.isLikeComment)
+router.put('/:commentId/unlike',isAuth,likeCmtController.isUnlikeComment)
 
 module.exports = router;

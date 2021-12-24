@@ -8,7 +8,9 @@ const validateInput = require('../common/middlewares/validationInput')
 /* /api/posts */
 router.get('/', postController.getAllPosts)
 router.get('/:postId',postController.getPostById)
+router.get('/:postId/hashtag',postController.getPostTag)
 router.post('/',isAuth,validateInput(postValid.postSchema),postController.createNewPost)
+router.post('/postTag',postController.createPostTag)
 router.put('/:postId',isAuth,validateInput(postValid.postSchema),postController.updatePost)
 router.delete('/:postId',isAuth, postController.deletePost)
 

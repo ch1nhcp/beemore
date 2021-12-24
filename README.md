@@ -51,6 +51,7 @@ Người dùng sở hữu nhiều sao sẽ có bảng xếp hạng để theo d�
     }
     role: {
         type: String,
+        default: "member",
         enum: ["admin","member"]
     },
     countVote: Number,
@@ -153,8 +154,7 @@ Người dùng sở hữu nhiều sao sẽ có bảng xếp hạng để theo d�
         type: mongoose.Types.ObjectId,
         ref:"User"
     },
-    followers:Array,
-    following:Array,
+    followers:Array
 },{
     timestamps:true
 });
@@ -167,11 +167,7 @@ Người dùng sở hữu nhiều sao sẽ có bảng xếp hạng để theo d�
         type: mongoose.Types.ObjectId,
         ref:"Post"
     },
-    userId:{
-        type: mongoose.Types.ObjectId,
-        ref:"User"
-    },
-    status: Boolean
+    userId:Array,
 },{
     timestamps:true
 });
@@ -184,12 +180,13 @@ Người dùng sở hữu nhiều sao sẽ có bảng xếp hạng để theo d�
         type: mongoose.Types.ObjectId,
         ref:"Comment"
     },
-    userId:{
-        type: mongoose.Types.ObjectId,
-        ref:"User"
-    },
-    status: Boolean
+    userId:Array,
 },{
     timestamps:true
 });
+```
+
+## BookmarkSchema
+```sh
+
 ```

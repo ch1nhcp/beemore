@@ -10,9 +10,9 @@ const PostSchema = new Schema({
         require: true
     },
     postImg: String,
-    categoryId: {
+    hashtagId: {
         type:mongoose.Types.ObjectId,
-        ref:"Category"
+        ref:"HashTag"
     },
     viewNumber: {
         type:Number,

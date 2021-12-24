@@ -7,7 +7,8 @@ const ReportSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ["Chưa xử lý","Đang xử lý","Đã xử lý"]
+        enum: ["Chưa xử lý","Đang xử lý","Đã xử lý"],
+        default:"Chưa xử lý"
     },
     postId: {
         type: mongoose.Types.ObjectId,

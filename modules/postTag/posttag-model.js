@@ -5,7 +5,7 @@ const PostTagSchema = new Schema({
     postId:{
         type: mongoose.Types.ObjectId,
         required: true,
-        ref:"Post"
+        ref:"Post",
     },
     tagId:[{
         type:mongoose.Types.ObjectId,

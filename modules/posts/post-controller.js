@@ -1,5 +1,6 @@
 const PostModel = require('./post-model');
 const PostTagModel = require('../postTag/posttag-model');
+const { copy } = require('./post-router');
 
 const getAllPosts = async (req, res, next) => {
     try{
@@ -86,21 +87,41 @@ const getPostById = async (req, res, next) => {
 const createNewPost = async (req, res, next) => {
     try {
         const { user } = req;
-        console.log(req)
-    
         const newPostData = req.body; 
         const newPost = await PostModel.create({
           ...newPostData,
           createdBy: user._id
-        });
-    
+        })
+        console.log(newPost._id);
+        const newPostTag = await PostTagModel.create({
+          "postId":newPost._id
+        })
+
         res.send({
           success: 1,
-          data: newPost,
+          data: {
+            data: newPost,
+            postTag: newPostTag
+          },
         });
+        // const { user } = req;
+        // console.log(req)
+    
+        // const newPostData = req.body; 
+        // const newPost = await PostModel.create({
+        //   ...newPostData,
+        //   createdBy: user._id
+        // });
+    
+        // res.send({
+        //   success: 1,
+        //   data: newPost,
+        // });
       } catch (err) {
         next(err);
       }
+
+      
 }
 
 const updatePost = async (req, res) => {
@@ -134,10 +155,78 @@ const deletePost = async (req, res) => {
     }
 }
 
-const getPostTag = async (req, res) => {
+const getPostTagAll = async (req, res, next) => {
+  try{
+    const { 
+        keyword, 
+        createdBy, 
+        tag, 
+        skip, 
+        limit, 
+        sortField, 
+        sortDirection 
+    } = req.query;
+
+    const createdByFilter = createdBy ? { createdBy } : {};
+    const keywordFilter = keyword ? 
+      { 
+        $or: [
+          { title: { $regex: new RegExp(`${keyword}`, 'i') }},
+          { description: { $regex: new RegExp(`${keyword}`, 'i') }}
+        ]
+      } : {};
+
+    const tagFilter = tag ? { tags: tag } : {};
+
+    const filter = {
+      ...createdByFilter,
+      ...keywordFilter,
+      ...tagFilter
+    };
+
+    const pagination = {
+      skip: skip ? Number(skip) : 0,
+      limit: limit ? Number(limit): 4
+    }
+
+    const sortDirectionParams = sortDirection ? Number(sortDirection) : -1;
+    const sortParams = sortField ? {
+      [sortField]: sortDirectionParams
+    } : {}
+
+
+    const [posts, totalPosts] = await Promise.all([
+        PostTagModel
+          .find(filter)
+          .populate('tagId').populate({path:'postId',populate:{path:'createdBy',select: 'username'}})
+          .sort(sortParams)
+          .skip(pagination.skip)
+          .limit(pagination.limit),
+        PostTagModel.find(filter).countDocuments()
+      ])
+
+      res.send({
+        success: 1,
+        data: {
+          data: posts,
+          total: totalPosts
+        },
+      });
+    }
+    
+    catch(err){
+        res.status(400).send({
+            success: 0,
+            data: null,
+            message: err.message || "Something went wrong",
+          });
+    }
+}
+
+const getPostTag = async (req, res, next) => {
   try{
     const {postId} = req.params;
-    const foundPosts = await PostTagModel.findOne({postId:postId}).populate('tagId').populate('postId');
+    const foundPosts = await PostTagModel.findOne({postId:postId}).populate('tagId').populate({path:'postId',populate:{path:'createdBy',select: 'username'}});
     res.send({
         success: 1,
         data: foundPosts,
@@ -168,10 +257,11 @@ const createPostTag = async (req, res) => {
 
 module.exports = {
     getAllPosts,
+    getPostTagAll,
     getPostById,
     createNewPost,
     updatePost,
     deletePost,
     getPostTag,
-    createPostTag
+    createPostTag,
 }

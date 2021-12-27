@@ -1,6 +1,7 @@
 const PostModel = require('./post-model');
 const PostTagModel = require('../postTag/posttag-model');
-const { copy } = require('./post-router');
+const HashTagModel = require('../hashtags/hashtag-model');
+const CommentModel = require('../comments/comment-model');
 
 const getAllPosts = async (req, res, next) => {
     try{
@@ -87,14 +88,28 @@ const getPostById = async (req, res, next) => {
 const createNewPost = async (req, res, next) => {
     try {
         const { user } = req;
-        const newPostData = req.body; 
+        const newPostData = req.body;
+        const tagPost = newPostData.tag;
         const newPost = await PostModel.create({
-          ...newPostData,
+          postTitle: newPostData.postTitle,
+          content: newPostData.content,
           createdBy: user._id
-        })
-        console.log(newPost._id);
+        }) //Tạo post mới
+        
+        
+        tagPost.forEach(async (item) => {
+          const newTag = await HashTagModel.findOneAndUpdate(
+            { tagName:item },
+            { expire: new Date() },
+            { upsert: true, new: true, setDefaultsOnInsert: true })
+        }) // Tạo tag mới nếu chưa có trong csdl
+
+        const getTag = await HashTagModel.find({'tagName':{$in:tagPost}},'_id')
+        // request id tag
+
         const newPostTag = await PostTagModel.create({
-          "postId":newPost._id
+          "postId":newPost._id,
+          "tagId":getTag,
         })
 
         res.send({
@@ -118,7 +133,7 @@ const createNewPost = async (req, res, next) => {
         //   data: newPost,
         // });
       } catch (err) {
-        next(err);
+        console.log(err);
       }
 
       
@@ -226,6 +241,7 @@ const getPostTagAll = async (req, res, next) => {
 const getPostTag = async (req, res, next) => {
   try{
     const {postId} = req.params;
+
     const foundPosts = await PostTagModel.findOne({postId:postId}).populate('tagId').populate({path:'postId',populate:{path:'createdBy',select: 'username'}});
     res.send({
         success: 1,
@@ -255,6 +271,19 @@ const createPostTag = async (req, res) => {
   }
 }
 
+const getCommentByPostId = async (req, res) => {
+  try{
+    const {postId} = req.params;
+    const getComment = await CommentModel.find({postId: postId}).populate({path:'createdBy',select: 'username'});
+    res.send({
+      success:1,
+      data: getComment
+    })
+  }catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
     getAllPosts,
     getPostTagAll,
@@ -264,4 +293,5 @@ module.exports = {
     deletePost,
     getPostTag,
     createPostTag,
+    getCommentByPostId,
 }

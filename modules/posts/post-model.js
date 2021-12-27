@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');
+var slug = require('mongoose-slug-updater');
+mongoose.plugin(slug);
 const Schema = mongoose.Schema;
 const PostSchema = new Schema({
     postTitle: {
         type: String,
         require: true
+    },
+    slug: {
+        type: String,
+        slug: "postTitle",
+        unique: true
     },
     content: {
         type: String,

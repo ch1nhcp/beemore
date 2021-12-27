@@ -14,4 +14,6 @@ router.post('/postTag',postController.createPostTag)
 router.put('/:postId',isAuth,validateInput(postValid.postSchema),postController.updatePost)
 router.delete('/:postId',isAuth, postController.deletePost)
 
+router.get('/:postId/comments',postController.getCommentByPostId)
+
 module.exports = router;
